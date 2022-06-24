@@ -19,16 +19,17 @@ const wss = new WebSocketServer({
   port: 8080,
 });
 
-wss.on('connection', (ws) => {
-  ws.on('message', async (data) => {
+wss.on('connection', (ws: any) => {
+  ws.on('message', async (data: any) => {
     console.log('received: %s', data);
-    const values = getParams(data);
+    const values = getParams(data.toString());
+    console.log(values);
     let { x, y } = getMousePos();
 
     console.log(data.toString());
     switch (data.toString()) {
       case `draw_circle ${values[0]}`:
-        drawing.drawCircle(values[0]);
+        drawing.drawCircle(Number(values[0]));
         ws.send(`draw_circle ${values[0]}`);
         break;
       case `draw_rectangle ${values[0]} ${values[1]}`:
@@ -44,11 +45,11 @@ wss.on('connection', (ws) => {
         ws.send(`mouse_right ${values[0]}`);
         break;
       case `mouse_left ${values[0]}`:
-        moveMouse(x - values[0], y + 1);
+        moveMouse(x - Number(values[0]), y + 1);
         ws.send(`mouse_left ${values[0]}`);
         break;
       case `mouse_up ${values[0]}`:
-        moveMouse(x + 1, y - values[0]);
+        moveMouse(x + 1, y - Number(values[0]));
         ws.send(`mouse_up ${values[0]}`);
         break;
       case `mouse_down ${values[0]}`:
@@ -61,7 +62,7 @@ wss.on('connection', (ws) => {
       case `prnt_scrn`:
         const print = await drawing.prntScreen();
 
-        var base64Str = print.toString('base64');
+        var base64Str = print.toString();
         ws.send(`prnt_scrn ${base64Str}`);
         break;
       default:

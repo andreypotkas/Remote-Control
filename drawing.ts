@@ -8,7 +8,6 @@ const {
   screen,
 } = pkg;
 import Jimp from 'jimp';
-import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 const filename = fileURLToPath(import.meta.url);
@@ -16,7 +15,7 @@ const dirname = path.dirname(filename);
 export class Drawing {
   constructor() {}
 
-  drawCircle(radius) {
+  drawCircle(radius: number) {
     const mousePos = getMousePos();
 
     for (let i = 0; i <= Math.PI * 2; i += 0.01) {
@@ -30,7 +29,7 @@ export class Drawing {
     mouseToggle('up');
   }
 
-  drawRectangle(a, b) {
+  drawRectangle(a: string, b: string) {
     let x = getMousePos().x;
     let y = getMousePos().y;
     mouseToggle('down');
@@ -41,7 +40,7 @@ export class Drawing {
     mouseToggle('up');
   }
 
-  drawSquare(a) {
+  drawSquare(a: string) {
     let x = getMousePos().x;
     let y = getMousePos().y;
     mouseToggle('down');
@@ -56,7 +55,7 @@ export class Drawing {
     const { x, y } = getMousePos();
     let img = screen.capture(x - 100, y - 100, 200, 200);
 
-    let data = [];
+    let data: any = [];
     let bitmap = img.image;
     let i = 0,
       l = bitmap.length;
