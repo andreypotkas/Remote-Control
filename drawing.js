@@ -52,7 +52,7 @@ export class Drawing {
     mouseToggle('up');
   }
 
-  prntScreen() {
+  async prntScreen() {
     const { x, y } = getMousePos();
     let img = screen.capture(x - 100, y - 100, 200, 200);
 
@@ -63,19 +63,13 @@ export class Drawing {
     for (i = 0; i < l; i += 4) {
       data.push(bitmap[i + 2], bitmap[i + 1], bitmap[i], bitmap[i + 3]);
     }
-    new Jimp(
-      {
-        data: new Uint8Array(data),
-        width: 200,
-        height: 200,
-      },
-      function (err, image) {
-        if (err) {
-          fs.writeFile(dirname + '/data/screen.png', '', function () {});
-        } else {
-          image.write(dirname + '/data/screen.png');
-        }
-      }
-    );
+    const jimp = new Jimp({
+      data: new Uint8Array(data),
+      width: 200,
+      height: 200,
+    });
+    const buff = await jimp.getBase64Async(Jimp.MIME_PNG);
+    const base64 = buff.split(',')[1];
+    return base64;
   }
 }

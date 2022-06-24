@@ -1,15 +1,13 @@
-import Jimp from 'jimp';
 import { httpServer } from './src/http_server/index.js';
-import { WebSocketServer, WebSocket } from 'ws';
+import { WebSocketServer } from 'ws';
 import { Drawing } from './drawing.js';
 import pkg from 'robotjs';
 import getParams from './utils/getParams.js';
-import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
-const { moveMouse, mouseToggle, moveMouseSmooth, dragMouse, getMousePos } = pkg;
+const { moveMouse, getMousePos } = pkg;
 
 const drawing = new Drawing();
 const HTTP_PORT = 3000;
@@ -22,7 +20,7 @@ const wss = new WebSocketServer({
 });
 
 wss.on('connection', (ws) => {
-  ws.on('message', (data) => {
+  ws.on('message', async (data) => {
     console.log('received: %s', data);
     const values = getParams(data);
     let { x, y } = getMousePos();
@@ -61,12 +59,9 @@ wss.on('connection', (ws) => {
         ws.send(`mouse_position ${x}px,${y}px p\0`);
         break;
       case `prnt_scrn`:
-        const print = drawing.prntScreen();
-        const file = fs.readFile(
-          path.resolve(dirname + '/data/screen.png'),
-          function () {}
-        );
-        var base64Str = file.toString('base64');
+        const print = await drawing.prntScreen();
+
+        var base64Str = print.toString('base64');
         ws.send(`prnt_scrn ${base64Str}`);
         break;
       default:
