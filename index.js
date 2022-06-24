@@ -4,7 +4,11 @@ import { WebSocketServer, WebSocket } from 'ws';
 import { Drawing } from './drawing.js';
 import pkg from 'robotjs';
 import getParams from './utils/getParams.js';
-
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+const filename = fileURLToPath(import.meta.url);
+const dirname = path.dirname(filename);
 const { moveMouse, mouseToggle, moveMouseSmooth, dragMouse, getMousePos } = pkg;
 
 const drawing = new Drawing();
@@ -21,9 +25,8 @@ wss.on('connection', (ws) => {
   ws.on('message', (data) => {
     console.log('received: %s', data);
     const values = getParams(data);
-    let x = getMousePos().x;
-    let y = getMousePos().y;
-    console.log(`${x}, ${y}`);
+    let { x, y } = getMousePos();
+
     console.log(data.toString());
     switch (data.toString()) {
       case `draw_circle ${values[0]}`:
@@ -55,10 +58,16 @@ wss.on('connection', (ws) => {
         ws.send(`mouse_down ${values[0]}`);
         break;
       case `mouse_position`:
-        ws.send(`mouse_position: x: ${x}, y: ${y} `);
+        ws.send(`mouse_position ${x}px,${y}px p\0`);
         break;
-      case `mouse_position`:
-        ws.send(`mouse_position: x: ${x}, y: ${y} `);
+      case `prnt_scrn`:
+        const print = drawing.prntScreen();
+        const file = fs.readFile(
+          path.resolve(dirname + '/data/screen.png'),
+          function () {}
+        );
+        var base64Str = file.toString('base64');
+        ws.send(`prnt_scrn ${base64Str}`);
         break;
       default:
         '';
