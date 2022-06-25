@@ -22,6 +22,11 @@ wss.on('connection', (ws: any) => {
 
     engine(data, stream);
   });
+
+  // ?After program work finished the program should end websocket work correctly
+  // ? ws.on('close', () => {
+  // ?   wss.close();
+  // ? });
 });
 // After starting the program displays websocket parameters
 wss.on('headers', (data) => {
