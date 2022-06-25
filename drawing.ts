@@ -1,4 +1,5 @@
 import pkg from 'robotjs';
+import Jimp from 'jimp';
 const {
   moveMouse,
   mouseToggle,
@@ -7,19 +8,13 @@ const {
   getMousePos,
   screen,
 } = pkg;
-import Jimp from 'jimp';
-import path from 'path';
-import { fileURLToPath } from 'url';
-const filename = fileURLToPath(import.meta.url);
-const dirname = path.dirname(filename);
+
 export class Drawing {
   constructor() {}
-
   drawCircle(radius: number) {
     const mousePos = getMousePos();
 
     for (let i = 0; i <= Math.PI * 2; i += 0.01) {
-      // Convert polar coordinates to cartesian
       const x = mousePos.x + radius * Math.cos(i);
       const y = mousePos.y + radius * Math.sin(i);
 

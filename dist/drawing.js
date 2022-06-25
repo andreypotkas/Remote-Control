@@ -1,10 +1,6 @@
 import pkg from 'robotjs';
-const { moveMouse, mouseToggle, moveMouseSmooth, dragMouse, getMousePos, screen, } = pkg;
 import Jimp from 'jimp';
-import path from 'path';
-import { fileURLToPath } from 'url';
-const filename = fileURLToPath(import.meta.url);
-const dirname = path.dirname(filename);
+const { moveMouse, mouseToggle, moveMouseSmooth, dragMouse, getMousePos, screen, } = pkg;
 export class Drawing {
     constructor() { }
     drawCircle(radius) {
