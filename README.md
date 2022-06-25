@@ -1,19 +1,12 @@
 # NodeJS Websocket remote control
 
-## Description
-
-Implement remote control backend using RobotJS library and websocket. Using typescript.
+:alien::pencil: Implement remote control backend using RobotJS library and websocket. Using typescript.
 
 ## Installation
 
 1. Clone/download repo
 2. `npm install`
-
-## Usage
-
-**Production**
-
-`npm run start`
+3. `npm run start`
 
 ## Functionallity
 
