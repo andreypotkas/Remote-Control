@@ -1,30 +1,23 @@
-# RSSchool NodeJS websocket task template
-> Static http server and base task packages.
+# NodeJS Websocket remote control
+
+## Description
+
+Implement remote control backend using RobotJS library and websocket. Using typescript.
 
 ## Installation
+
 1. Clone/download repo
 2. `npm install`
 
 ## Usage
-**Development**
-
-`npm run start:dev`
-
-* App served @ `http://localhost:8181` with nodemon
 
 **Production**
 
 `npm run start`
 
-* App served @ `http://localhost:8181` without nodemon
+## Functionallity
 
----
-
-**All commands**
-
-Command | Description
---- | ---
-`npm run dev` | App served @ `http://localhost:8181` with nodemon
-`npm run start` | App served @ `http://localhost:8181` without nodemon
-
-**Note**: replace `npm` with `yarn` in `package.json` if you use yarn.
+- Move mouse (Up, Down, Left, Right)
+- Draw circle, rectangle and square
+- Send current mouse coordinates
+- Send desktop capture
